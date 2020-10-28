@@ -1,5 +1,5 @@
-# 2020WN_SI671
-Final project repository for umich SI 671 data mining. 
+# 2020WN_CS545
+Final project repository for umich EECS 545 Machine Learning. 
 
 **MATERIALS**
 - [Tushare - Stock data scrawling tool](https://tushare.pro/register?reg=395357)
@@ -27,12 +27,10 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
 - Data Retrieval: Using crawling methods to crawl all the data we need for this project.  
   - Historical stock open price, close price, all interesting factors for each stock. (Zeyuan hu)
     - 2020-10-03 kunsheng: Found an amazing crawling tools [Tushare](https://tushare.pro/register?reg=395357)
-  - Historical stock info for INDEX stock like '沪深300' (Zeyuan hu)
+  - Historical stock info for INDEX stock like '沪深300' (kunsheng)
   - Corresponding news for each stock with published date (kunsheng)
-    - 2020-09-30: Iteratively crawled some news, but the length of content and title are not the same, still needs debugging. 
-    - 2020-10-03: Finishing debugging, but still need some preprocessing like word split, cleansing some words like '\n', then store them as files
     - 2020-10-14: Use Tushare to crawl all the quick news from 2019-01-01 till now, still need to assign to corresponding stocks with names or ids.
-  - Overall news about finance or stock market with published date (Ivy) 
+  - Overall news about finance or stock market with published date (kunsheng) 
     - 2020-10-14 kunsheng: Use Tushare to crawl all the general news from 2019-01-01 till now, save some samples in git.
 - Data Cleansing: Data from the crawling process may be messy and hard to use, so we need to
 preprocess the data first.  
@@ -58,4 +56,3 @@ on real data.
   - I look through some data mining articles about predicting stocks, they always cast it into a classification problems predicting the stock price of the following days to be "UP", "DOWN" or "PRESERVE". In LCW they achieve the accuracy of about 50%.
   - Also in LCW, they did a market trading simulation and conduct a back-testing for a year to validate their models, which achieve 50% accumulated profit. (WHAT???????)
 
-- 2020-10-14
