@@ -21,9 +21,11 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
 **TODOS**
 - ~~project proposal~~  
 - Things to figure out before everything
-  - Common label definitions used in stock prediction
-  - How can the label related to the actual applications? 
-  - How's the final data frame looks like?
+  - ~~Common label definitions used in stock prediction~~
+    - UP, DOWN, PRESERVE - Three class classification problem
+  - ~~How can the label related to the actual applications? ~~
+    - The probability of UP can be used to selected stocks. 
+  - How's the final data frame looks like? 
 - Data Retrieval: Using crawling methods to crawl all the data we need for this project.  
   - Historical stock open price, close price, all interesting factors for each stock. (Zeyuan hu)
     - 2020-10-03 kunsheng: Found an amazing crawling tools [Tushare](https://tushare.pro/register?reg=395357)
