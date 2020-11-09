@@ -11,6 +11,7 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
     3. The discriminative layers is MLP, can we train the models and extract the last layer to get all the features and feed them into something like xgboost?
     4. Using the probability of 'UP' minus the probability of 'DOWN' as measurement to buy topK stocks with the open price, and sell them with the close price, achieving 50% annual return
 - **[Coding Repo about HAN in LCW](https://github.com/Pie33000/stock-prediction)**
+- [中文word2vec预训练](https://github.com/Embedding/Chinese-Word-Vectors)
 - [一文看懂 Attention（本质原理+3大优点+5大类型）](https://zhuanlan.zhihu.com/p/91839581)
 - [【NLP】Transformer模型原理详解](https://zhuanlan.zhihu.com/p/44121378)  
 - [搞懂Transformer结构，看这篇PyTorch实现就够了（上）](https://zhuanlan.zhihu.com/p/48731949)
