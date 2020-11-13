@@ -24,9 +24,9 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
 - Things to figure out before everything
   - ~~Common label definitions used in stock prediction~~ 
     - UP, DOWN, PRESERVE - Three class classification problem
-  - ~~How can the label related to the actual applications? ~~ 
+  - ~~How can the label related to the actual applications?~~ 
     - The probability of UP can be used to selected stocks. 
-  - ~~How's the final data frame looks like? ~~ 
+  - ~~How's the final data frame looks like?~~ 
     - stock_name, day-10-path, day-9-path, ..., day-1-path, label
     - read in one row at a time and read in corresponding txt files in dataloader.
 - Data Retrieval: Using crawling methods to crawl all the data we need for this project.  
@@ -35,7 +35,7 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
   - ~~Historical stock info for INDEX stock like '沪深300' (kunsheng)~~ 
   - ~~Corresponding news for each stock with published date (kunsheng)~~ 
     - 2020-10-14: Use Tushare to crawl all the quick news from 2019-01-01 till now, still need to assign to corresponding stocks with names or ids.
-  - ~~Overall news about finance or stock market with published date (kunsheng) ~~ 
+  - ~~Overall news about finance or stock market with published date (kunsheng)~~ 
     - 2020-10-14 kunsheng: Use Tushare to crawl all the general news from 2019-01-01 till now, save some samples in git.
   - ~~Assign News to stocks (kunsheng)~~ 
     - 2020-11-12 kunsheng: if stock name or stock number appear in news, then this news is related to this stock. Use multiprocessing library to accelerate. 
