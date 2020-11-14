@@ -12,6 +12,7 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
     4. Using the probability of 'UP' minus the probability of 'DOWN' as measurement to buy topK stocks with the open price, and sell them with the close price, achieving 50% annual return
 - **[Coding Repo about HAN in LCW](https://github.com/Pie33000/stock-prediction)**
 - **[BERT colab tutorial](https://colab.research.google.com/drive/1Y4o3jh3ZH70tl6mCd76vz_IxX23biCPP#scrollTo=D6TKgyUzPIQc)**
+- [Pretrained BERT in huggingface](https://huggingface.co/transformers/v2.2.0/pretrained_models.html)
 - [THULAC Chinese word split tool](https://github.com/thunlp/THULAC-Python)
 - [中文word2vec预训练](https://github.com/Embedding/Chinese-Word-Vectors)
 - [一文看懂 Attention（本质原理+3大优点+5大类型）](https://zhuanlan.zhihu.com/p/91839581)
