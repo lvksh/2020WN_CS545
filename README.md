@@ -41,8 +41,8 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
     - 2020-11-12 kunsheng: if stock name or stock number appear in news, then this news is related to this stock. Use multiprocessing library to accelerate. 
 - Data Cleansing: Data from the crawling process may be messy and hard to use, so we need to
 preprocess the data first.  
-  - Numerical Feature Engineering: It’s hard to predict the stock using solely the text, so we need to
-construct some stock factors like 5-day variance, etc.  (dengrui)
+  - ~~Numerical Feature Engineering: It’s hard to predict the stock using solely the text, so we need to~~
+~~construct some stock factors like 5-day variance, etc.  (dengrui)~~
   - Text Feature Engineering: word split, stop words, quality control (yindim)
   - ~~Dataset splitting: Based on the ratio of 3 classes to split the dataset. (jingxian)~~
     - <font color =red>2020-11-14 jingxian: The data splitting part haven't applied to all the stock we we have and we need to compute the threhold to divide UP, DOWN, PRESERVE label later</font>
