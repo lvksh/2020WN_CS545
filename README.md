@@ -11,6 +11,9 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
     3. The discriminative layers is MLP, can we train the models and extract the last layer to get all the features and feed them into something like xgboost?
     4. Using the probability of 'UP' minus the probability of 'DOWN' as measurement to buy topK stocks with the open price, and sell them with the close price, achieving 50% annual return
 - **[Coding Repo about HAN in LCW](https://github.com/Pie33000/stock-prediction)**
+- **[BERT colab tutorial](https://colab.research.google.com/drive/1Y4o3jh3ZH70tl6mCd76vz_IxX23biCPP#scrollTo=D6TKgyUzPIQc)**
+- [Pretrained BERT in huggingface](https://huggingface.co/transformers/v2.2.0/pretrained_models.html)
+- [THULAC Chinese word split tool](https://github.com/thunlp/THULAC-Python)
 - [中文word2vec预训练](https://github.com/Embedding/Chinese-Word-Vectors)
 - [一文看懂 Attention（本质原理+3大优点+5大类型）](https://zhuanlan.zhihu.com/p/91839581)
 - [【NLP】Transformer模型原理详解](https://zhuanlan.zhihu.com/p/44121378)  
@@ -18,6 +21,7 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
 - [The Annotated Transformer](https://nlp.seas.harvard.edu/2018/04/03/attention.html)
 - [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/)
 - [BERT中文情感分类](https://github.com/Toyhom/Hei_Dong/tree/master/Project/%E4%B8%AD%E6%96%87%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB)
+
 
 **TODOS**
 - ~~project proposal~~  
