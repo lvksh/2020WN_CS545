@@ -131,15 +131,19 @@ print(X.shape)
 # Model Building
 ############################
 class baseLineRnnModel(nn.Module):
-    def __init__(self, embedded_size, hidden_size, num_layers, num_classes):
+    def __init__(self, embedded_size, max_news, batch_size, seq_len, hidden_size, num_layers, num_classes):
         super(baseLineRnnModel, self).__init__()
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.embedded_size = embedded_size
-        
+        self.batch_size = batch_size
+        self.seq_len = seq_len 
+        self.hidden_size = hidden_size
+        self.max_news = max_news
         ################
-        # news attention
+        # News-level attention
         ################
-        self.Wn = torch.tensor((1,self.embedded_size), requires_grad = True) # 1*300
+        self.Wn = nn.Linear(in_features = self.embedded_size, out_features = 1, bias = True) # 1*300
+        self.sigmoid = nn.Sigmoid()
         ################
         
         ################
@@ -147,29 +151,69 @@ class baseLineRnnModel(nn.Module):
         ################
         self.gru = nn.GRU(input_size=embedded_size,  # The number of expected features in the input x, which is embedded size 
                           hidden_size=hidden_size, # The number of features in the hidden state h, which is the output dim
-                          num_layers=1,  # Number of recurrent layers
+                          num_layers=num_layers,  # Number of recurrent layers
                           batch_first=True, # (batch, seq, feature)
                           bidirectional=True, # bidirectional GRU, concatenate two directions
                           dropout=0.3) # dropout
         ################
         
-    def forward(self, X):
-        # 10 * 300 * Lt * batch_size 
-        # nt: Lt * batch_size * embedded_size
+        ################
+        # Temporal attention
+        ################
+        self.Wh = nn.Linear(in_features = 2 * self.hidden_size, out_features = 1, bias = True)
+        ################
         
         ################
-        # news attention
+        # Discriminative Network
         ################
-        Ut = nn.Sigmoid(self.Wn * nt)
-        at = nn.Softmax(Ut)
-        dt = nt * at # 300*1
+        self.fc = nn.Linear(in_features = 2 * self.hidden_size, out_features = num_classes, bias = True)
+        ################
+    def forward(self, X):
+        # X.shape: [5, 10, 4, 300]
+        # batch_size, seq_len, max_news, embedded_size
+        
+        ################
+        # News-level attention
+        ################
+        Ut = self.sigmoid(self.Wn(X.float())) # Wn(X)/Ut is [5, 10, 4, 1]
+        at = nn.Softmax(dim = 3)(Ut.reshape((self.batch_size, self.seq_len, 1, self.max_news))) # [5, 10, 1, 4]
+        # [5, 10, 1, 4] * [5, 10, 4, 300] = [5, 10, 1, 300] -> [5, 10, 300]
+        dt = torch.matmul(at, X.float()).reshape((self.batch_size, self.seq_len, self.embedded_size))
         ################
         
         ################
         # GRU
         ################
-        
+        # input of shape (batch, seq_len, input_size)
+        # output (all ht) of shape (batch, seq_len, num_directions * hidden_size)
+        # h_n (the last ht) of shape (batch, num_layers * num_directions,  hidden_size)
+        h, _ = self.gru(dt) 
+        ################
         
         ################
-        loss = None
-        return loss
+        # Temporal attention
+        ################
+        o_i = sigmoid_att(self.Wh(h)) # [batch, seq_len, 1]
+        beta_i = nn.Softmax(dim = 1)(o_i).reshape((self.batch_size, 1, -1)) # [batch, 1, seq_len]
+        # [batch, 1, seq_len] * [batch, seq_len, 2 * hidden_size] = [batch, 1, 2*hidden_size]
+        V = torch.matmul(beta_i, h).reshape((self.batch_size, -1)) #  [batch, 2*hidden_size]
+        ################
+        
+        ################
+        # Discriminative Network
+        ################
+        output = self.fc(V)
+        ################
+        
+        return output
+
+model = baseLineRnnModel(embedded_size = 300,
+                         max_news = 4,
+                         hidden_size = 300,
+                         batch_size = 5,
+                         seq_len = 10,
+                         num_layers = 1,
+                         num_classes = 3)
+print(X.shape)
+y = model(X)
+print(y.shape)
