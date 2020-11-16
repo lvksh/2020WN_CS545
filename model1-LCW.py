@@ -11,12 +11,29 @@ import pickle
 import re
 
 
+import pickle, argparse, os, sys
+from sklearn.metrics import accuracy_score
+import numpy as np
+import random
+import torch
+import torch.nn as nn
+import torch.functional as F
+import thulac # Chinese word splitting tool
+import gensim
+import pickle
+import re
+import pandas as pd
+dataPath = '/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare'
+word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
+stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
+
 class InputDataset(torch.utils.data.Dataset):
-    def __init__(self, dataloaderFile, dataPath, word2vecPath, stopwordsPath):
+    def __init__(self, dataloaderFile, dataPath, word2vecPath, stopwordsPath, embedded_size, max_news_cnt):
         # read in the dataloader file and store it in class
         # make sure some rows that have no news at all are discarded 
         self.df_dataloader = pd.read_csv(dataloaderFile)
-        self.df_dataloader = self.df_dataloader.iloc[:,1:]
+        self.embedded_size = embedded_size
+        self.max_news_cnt  = max_news_cnt
         self.dataPath = dataPath # prefix of all the files
         self.thu1 = thulac.thulac(seg_only=True)   # filter out meaningless word
         self.word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
@@ -29,8 +46,8 @@ class InputDataset(torch.utils.data.Dataset):
         # return x, y
         # [['今天', '股市', '又', '降', '了'], sentence2, ..., sentence10], label
         # [vector of corpus1, vector of corpus2, ..., vector of corpus10], label
-        def clean_sentence(s,stopwords)->[str]:
-            text_split = thu1.cut(s, text=True)
+        def clean_sentence(s, stopwords)->[str]:
+            text_split = self.thu1.cut(s, text=True)
             w_l = []
             for word in text_split:
                 if word not in stopwords:
@@ -49,9 +66,10 @@ class InputDataset(torch.utils.data.Dataset):
             for t in tl:
                 s_l.append(clean_sentence(t,stopwords))
             return s_l
+        
         def vectorize_s(s:[str],model)->'vec':
             ct = 0
-            vec = np.zeros((300,))
+            vec = np.zeros((self.embedded_size,))
             for word in s:
                 if word in model.vocab:
                     ct+=1
@@ -66,21 +84,27 @@ class InputDataset(torch.utils.data.Dataset):
                 vec  = vectorize_s(s,model)
                 if vec[0]!= np.nan:
                     v_l.append(vec)
+            # pad with 0s
+            v_l.extend([[0]*self.embedded_size]*(self.max_news_cnt-len(v_l)))
             return v_l    
         
         row = self.df_dataloader.iloc[index, :]
         corpus = []
-        for i in range(1, row.shape[0] - 2): # for each date
+        for i in range(2, 12): # for each date
             if pd.isna(row[i]): # no news on this date
-                corpus.append([])
+                # Pads with all 0
+                corpus.append([[0]*self.embedded_size]*self.max_news_cnt)
             else:
                 sentence = clean_file(self.dataPath + '/' + row[i],
                                       self.stopwords)
                 
                 corpus.append(vectorize_sl(sentence,self.word2vec))
-        return corpus, row[-1]
+                
+        return np.array(corpus), row[-1]
     def __len__(self):
         return self.df_dataloader.shape[0]
+    
+
     
 # test code for data loader:
 ############################
@@ -97,7 +121,10 @@ train_loader = torch.utils.data.DataLoader(dataset=input_data,
                                            shuffle=False)
 for i, (X, label) in enumerate(train_loader):
     break
-X
+print(X.shape)
+# [5, 10, 127, 300]
+# batch_size, seq_len, max_news, embedded_size
+
 ############################
 
 ############################
