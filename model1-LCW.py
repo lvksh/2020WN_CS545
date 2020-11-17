@@ -110,8 +110,9 @@ dataPath = "/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare" 
 word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
 stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
 dataloaderFile = dataPath + '/dataloader/train_data.csv'
-word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
-print("Loading the word2vec model, it takes time, don't worry.")
+if 'word2vec' not in dir():
+    print("Loading the word2vec model, it takes time, don't worry.")
+    word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
 input_data = InputDataset(dataPath,
                           dataloaderFile,
                           stopwordsPath,
@@ -246,8 +247,9 @@ stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
 dataloaderPath_train = dataPath + '/dataloader/train_data.csv'
 dataloaderPath_valid = dataPath + '/dataloader/cv_data.csv'
 dataloaderPath_test = dataPath + '/dataloader/test_data.csv'
-word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
-num_epochs = 2 # training epoch
+if 'word2vec' not in dir():
+    print("Loading the word2vec model, it takes time, don't worry.")
+    word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)num_epochs = 2 # training epoch
 learning_rate = 0.1 
 batch_size = 32
 embedded_size = 300
