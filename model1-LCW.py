@@ -106,22 +106,23 @@ class InputDataset(torch.utils.data.Dataset):
     
 # test code for data loader:
 ############################
-# dataPath = '/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare' # only change this
-# word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
-# stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
-# dataloaderFile = dataPath + '/dataloader/train_data.csv'
-# input_data = InputDataset('/Users/lvkunsheng/Documents/545Final/2020WN_CS545/dataloader/train_data.csv',
-#                           dataPath,
-#                           word2vecPath,
-#                           stopwordsPath,
-#                           embedded_size = 300,
-#                           max_news_cnt = 4)
-# train_loader = torch.utils.data.DataLoader(dataset=input_data,
-#                                            batch_size=5, 
-#                                            shuffle=False)
-# for i, (X, label) in enumerate(train_loader):
-#     break
-# print(X.shape)
+dataPath = '/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare' # only change this
+word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
+stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
+dataloaderFile = dataPath + '/dataloader/train_data.csv'
+word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
+
+input_data = InputDataset(dataPath,
+                          dataloaderFile,
+                          stopwordsPath,
+                          embedded_size = 300,
+                          max_news_cnt = 4)
+train_loader = torch.utils.data.DataLoader(dataset=input_data,
+                                           batch_size=5, 
+                                           shuffle=False)
+for i, (X, label) in enumerate(train_loader):
+    break
+print(X.shape)
 # [5, 10, 4, 300]
 # batch_size, seq_len, max_news, embedded_size
 
