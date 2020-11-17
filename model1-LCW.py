@@ -18,7 +18,7 @@ class InputDataset(torch.utils.data.Dataset):
     def __init__(self, dataPath, dataloaderFile, stopwordsPath, embedded_size, max_news_cnt):
         # read in the dataloader file and store it in class
         # make sure some rows that have no news at all are discarded 
-        self.df_dataloader = pd.read_csv(dataPath + dataloaderFile)
+        self.df_dataloader = pd.read_csv(dataloaderFile)
         self.embedded_size = embedded_size
         self.max_news_cnt  = max_news_cnt
         self.dataPath = dataPath # prefix of all the files
@@ -106,12 +106,12 @@ class InputDataset(torch.utils.data.Dataset):
     
 # test code for data loader:
 ############################
-dataPath = '/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare' # only change this
+dataPath = "/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare" # only change this
 word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
 stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
 dataloaderFile = dataPath + '/dataloader/train_data.csv'
 word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
-
+print("Loading the word2vec model, it takes time, don't worry.")
 input_data = InputDataset(dataPath,
                           dataloaderFile,
                           stopwordsPath,
@@ -120,6 +120,7 @@ input_data = InputDataset(dataPath,
 train_loader = torch.utils.data.DataLoader(dataset=input_data,
                                            batch_size=5, 
                                            shuffle=False)
+
 for i, (X, label) in enumerate(train_loader):
     break
 print(X.shape)
@@ -195,7 +196,7 @@ class HAN(nn.Module):
         ################
         # Temporal attention
         ################
-        o_i = sigmoid_att(self.Wh(h)) # [batch, seq_len, 1]
+        o_i = self.sigmoid(self.Wh(h)) # [batch, seq_len, 1]
         beta_i = nn.Softmax(dim = 1)(o_i).reshape((-1, 1, self.seq_len)) # [batch, 1, seq_len]
         # [batch, 1, seq_len] * [batch, seq_len, 2 * hidden_size] = [batch, 1, 2*hidden_size]
         V = torch.matmul(beta_i, h).reshape((-1, 2*self.hidden_size)) #  [batch, 2*hidden_size]
@@ -209,18 +210,19 @@ class HAN(nn.Module):
         
         return output
 
+
 # test code for model module:
 ############################    
-# model = HAN(embedded_size = 300,
-#                          max_news = 4,
-#                          hidden_size = 300,
-#                          batch_size = 5,
-#                          seq_len = 10,
-#                          num_layers = 1,
-#                          num_classes = 3)
-# print(X.shape)
-# y = model(X)
-# print(y.shape)
+model = HAN(embedded_size = 300,
+             max_news = 4,
+             hidden_size = 300,
+             batch_size = 5,
+             seq_len = 10,
+             num_layers = 1,
+             num_classes = 3)
+print(X.shape)
+y = model(X)
+print(y.shape)
 # # torch.Size([17, 10, 4, 300])
 # # torch.Size([17, 3])
 ############################
@@ -241,9 +243,9 @@ class HAN(nn.Module):
 dataPath = '/Users/lvkunsheng/PycharmProjects/cs545Finals/stockDataFromTushare' # change this
 word2vecPath =  dataPath + '/ChineseWord2Vec/sgns.financial.word'
 stopwordsPath = dataPath + '/Stopwords/stopwords.pkl'
-dataloaderPath_train = '/dataloader/train_data.csv'
-dataloaderPath_valid = '/dataloader/cv_data.csv'
-dataloaderPath_test = '/dataloader/test_data.csv'
+dataloaderPath_train = dataPath + '/dataloader/train_data.csv'
+dataloaderPath_valid = dataPath + '/dataloader/cv_data.csv'
+dataloaderPath_test = dataPath + '/dataloader/test_data.csv'
 word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
 num_epochs = 2 # training epoch
 learning_rate = 0.1 
