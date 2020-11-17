@@ -236,7 +236,7 @@ print(y.shape)
 # 3. sigmoid is element-wise  
 # 4. softmax need to decide which dimension to sum over 
 # 5. when specifying shape in forward, try to set -1 for batch_size. Then we don't have to worry about drop_last in dataloader. 
-
+# 6. remember to apply .to(device) on both model and data 
 ############################
 
 ############################
