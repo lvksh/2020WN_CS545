@@ -213,14 +213,16 @@ class HAN(nn.Module):
 
 
 # test code for model module:
-############################    
+############################ 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')   
 model = HAN(embedded_size = 300,
              max_news = 4,
              hidden_size = 300,
              batch_size = 5,
              seq_len = 10,
              num_layers = 1,
-             num_classes = 3)
+             num_classes = 3).to(device)
+X = X.float().to(device)
 print(X.shape)
 y = model(X)
 print(y.shape)
@@ -297,7 +299,7 @@ model = HAN(embedded_size = embedded_size,
             seq_len = seq_len,
             num_layers = num_layers,
             num_classes = num_classes)
-
+model = model.to(device)
 # Loss and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
