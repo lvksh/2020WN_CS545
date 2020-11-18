@@ -49,7 +49,7 @@ preprocess the data first.
 ~~construct some stock factors like 5-day variance, etc.  (dengrui)~~
   ~~- Text Feature Engineering: word split, stop words, quality control (yindim)~~
   - ~~Dataset splitting: Based on the ratio of 3 classes to split the dataset. (jingxian)~~
-    - <font color =red>2020-11-14 jingxian: The data splitting part haven't applied to all the stock we we have and we need to compute the threhold to divide UP, DOWN, PRESERVE label later</font>
+    - 2020-11-17 jingxian: we need to compute the threhold to divide UP, DOWN, PRESERVE label later
 - Model Building: We will try different machine learning regressors and compare their performance.
   - ~~data loader (kunsheng)~~ 
     - 2020-11-13 kunsheng: finish data loader module, still need to update when preprocessing finish.
