@@ -53,7 +53,10 @@ preprocess the data first.
 - Model Building: We will try different machine learning regressors and compare their performance.
   - ~~data loader (kunsheng)~~ 
     - 2020-11-13 kunsheng: finish data loader module, still need to update when preprocessing finish.
-  - Short term goal: Implement News-RNN, HAN from LCW; Build the whole framework of model building, data loading, model evaluation and back-testing.
+  - Short term goal: 
+    - ~~Implement News-RNN, HAN from LCW;~~ Build the whole framework of model building, data loading, model evaluation and back-testing.
+      - 2020-11-18 kunsheng: Implemented HAN, training time for 1 epoch is about 13h but not converging. Still need to accelerate using pytorch lightning, find better data sources (4 news for one stock in one day for now.), find more powerful servers to run our script, modify the structure and tune parameters.
+    - Implement BERT pretraining model by adding classification head.
   - Mid term goal: Implement HAN-SPL from LWC
   - Long term goal: Replace GRU structures in HAN with multi-head self-attention; Use data other then only news; Utilize pre-trained model like BERT in embedding layers, etc...
 - Model Applications: If we have time, we will extract some up-to-date data and validate our model
