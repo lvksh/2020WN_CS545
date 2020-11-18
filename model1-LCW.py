@@ -251,7 +251,8 @@ dataloaderPath_valid = dataPath + '/dataloader/cv_data.csv'
 dataloaderPath_test = dataPath + '/dataloader/test_data.csv'
 if 'word2vec' not in dir():
     print("Loading the word2vec model, it takes time, don't worry.")
-    word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)num_epochs = 2 # training epoch
+    word2vec = gensim.models.KeyedVectors.load_word2vec_format(word2vecPath, binary=False)
+num_epochs = 2 # training epoch
 learning_rate = 0.1 
 batch_size = 32
 embedded_size = 300
