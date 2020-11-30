@@ -61,6 +61,8 @@ preprocess the data first.
   - Long term goal: Replace GRU structures in HAN with multi-head self-attention; Use data other then only news; Utilize pre-trained model like BERT in embedding layers, etc...
 - Model Applications: If we have time, we will extract some up-to-date data and validate our model
 on real data.  
+- Some notes on accelerations:
+  - 2020-11-30 kunsheng: read in all the data instead of reading them each time in dataloader, which saves alot by reducing IOs.
 
 **Messy Thoughts**
 
