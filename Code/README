@@ -1,0 +1,28 @@
+README
+This README contains the description of each files:
+
+
+data collection (crawling.py)
+    - Collect news for 300 stocks from 5 major finance websites using TUSHARE from 2019-01-01 to 2020-10-12 
+
+    - Collect daily close price for 300 stocks from 2019-01-01 to 2020-10-12
+
+data cleansing 
+    - remove messy notations like \xa0 and \r\n, patterns that occurs really often, remove stopwords achieved from tsinghua university. (assignNews.py)
+
+data processing 
+    - assign news to stocks based on the name of stocks occurs in the news. (assignNews.py)
+
+    - using chinese FINBERT pretrained model to transform each news to vector. (berterlize.py)
+
+    - build up the dataframe which includes ten-day news file path and the rise percent in day 11,  determine the label based on the proportion of three labels, delete rows that have no news at all. (dataloader_creation_splitting.py)
+
+        - To reduce IOs, we read in all the data we need for training, valid, testing in a tensor using numpy and store it ahead of time. (readin_all.py)
+
+    - split our whole datasets into train, test, valid. (dataloader_creation_splitting.py)
+    	- v2: Because of the sparsity of news, we choose to update the dataloader dataframe by only choosing former 10 days that have news. (dataloader_creation_splitting.py)
+
+Model building and validation evaluation (HAN.py) 
+
+Some baseline model and plotting functions (baseline.py)
+    
