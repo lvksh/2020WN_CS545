@@ -56,7 +56,8 @@ preprocess the data first.
   - Short term goal: 
     - ~~Implement News-RNN, HAN from LCW;~~ Build the whole framework of model building, data loading, model evaluation and back-testing.
       - 2020-11-18 kunsheng: Implemented HAN, training time for 1 epoch is about 13h but not converging. Still need to accelerate using pytorch lightning, find better data sources (4 news for one stock in one day for now.), find more powerful servers to run our script, modify the structure and tune parameters.
-    - Implement BERT pretraining model by adding classification head.
+    - ~~Implement BERT pretraining model by adding classification head.~~
+      - 2020-12-05 kunsheng: convert all news to Bert vectors using transformer, then utilize the HAN structure. Note that there are problems using multiprocessing.
   - Mid term goal: Implement HAN-SPL from LWC
   - Long term goal: Replace GRU structures in HAN with multi-head self-attention; Use data other then only news; Utilize pre-trained model like BERT in embedding layers, etc...
 - Model Applications: If we have time, we will extract some up-to-date data and validate our model
@@ -64,14 +65,5 @@ on real data.
 - Some notes on accelerations:
   - 2020-11-30 kunsheng: read in all the data instead of reading them each time in dataloader, which saves alot by reducing IOs.
 
-**Messy Thoughts**
 
-- 2020-10-01 kunsheng
-  - Using news to predict stock, in a big picture, we want to look at all the information we can get when we want to invest on some stocks. So we can have:
-    1. Historical price: many works are done for this, which is a time-series and we can detect the trend or patterns to predict the future trend. But using only this is impossible to predict because stock price doesn't change because of the previous price. However, previous price will give us a great estimate of the variance level or trend because a factor that affect the price will last for a period, that's why time-series makes sense sometimes.
-    2. News about this certain stock: this should be a significant features. Let's assumes those stock experts analyzing news and stocks and financial reports are paid to do something really useful, we can use machine learning to imitate their works and analyze the news content.
-    3. Besides, the general informations (Like '沪深指数'), which integrate many stocks and can represents the general stock market. We can make use of the historical price and news about this INDEX to gain a overall impression on the whole stock market, which will help too.
-    4. Besides news, we can consider some experts reports too. In China, these kind of news may attracts more attentions and hence influence individual investors' decisions more! 
-  - I look through some data mining articles about predicting stocks, they always cast it into a classification problems predicting the stock price of the following days to be "UP", "DOWN" or "PRESERVE". In LCW they achieve the accuracy of about 50%.
-  - Also in LCW, they did a market trading simulation and conduct a back-testing for a year to validate their models, which achieve 50% accumulated profit. (WHAT???????)
 
