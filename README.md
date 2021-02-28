@@ -90,4 +90,51 @@ on real data.
   - 2020-11-30 kunsheng: read in all the data instead of reading them each time in dataloader, which saves alot by reducing IOs.
 
 
+## Limitations
 
+In this project, we carefully examine the detail of the Hybrid Attention Networks framework and re-implement it using PyTorch. When applying the original settings in newly crawled stock news, we also try to add some state-of-the-art techniques like replacing Word2Vec with pre-trained BERT. Compared to several baseline classifiers, we found that HAN does have the ability to help model focus on more important news and have a better ability to extract features inside natural languages and achieve relatively great performance in stock prediction task. During the whole project we encounter many obstacles:
+
+
+
+**Data Preparation**
+
+At first we decide to crawl the news which are already been assigned to each stocks by the operator of Sina website, but afterwards we found that there were a lot of missing dates for many stocks. We have to buy a crawling program which can only crawl general news that are not necessarily connected to certain stock. Assigning news to stocks are frustrating because it's both time-consuming and not efficient. Some stocks have the name like "MaoTai Cooperation", but news may call it "MaoTai" instead, which will not be assigned to this stock. 
+
+Because of the difficuty in assigning news, we encounter another problem which is news sparsity. Almost 30\% of the samples have no news in the former 10 days. After we delete all of them, almost 50\% of them are missing 7 days out of 10. The quality of the data really impact our training process, many gradients are hence zeroed out and impossible to train. Finally we come up with a somehow brilliant idea, which is to only take the former 10 days that have news into account. It's absolutely not a perfect solution, but it's enough to validate our implementations.
+
+Besides, when using Pytorch and Transformer library to transform news to BERT vectors, we found that the multiprocessing library in Python is not working at all. I have searched all over but only found another library to do sentence2vec task in parallel but cannot use all the pre-trained model in transformer library. Hence it took us 4 days to transform all the news into BERT vectors, which should be able to be reduced to several hours with 16 cores. If you have any advice on it please let me know!
+
+When we are writing dataloader module, at first we organize all the paths to files in a data frame and try to read them in every time we try to get an item. However, it turns out that it takes about 12 hours for only 1 epoch. To reduce IOs, I read in all the data in the format of big tensor and pickle it as npy file. In this project we can read them all in and greatly improve the training speed (3 mins for one epoch), but we also found an useful 
+feature called memmap in numpy, which can help you get a slice of the pickled file when you actually need it. In this way, we can read in a batch of data with only one IO then delete them before we read another batch to save memory.
+
+**Model Training**
+
+In the training process, we also found lots of details are important but not explicitly stated in the original paper. For example, instead of using zero initiation in GRU, we use orthogonal initiation and use xavier initiation in fully connected weight as suggested in [12]. 
+
+Also, we found that the validation loss is not stable in the late phase of training, so we utilize learning rate scheduler in PyTorch to reduce the learning rate according to the valid loss, which help to converge and smooth the learning curve.
+
+## Bibliography
+
+[1] Hu, Ziniu, et al. "Listening to chaotic whispers: A deep learning framework for news-oriented stock trend prediction." Proceedings of the eleventh ACM international conference on web search and data mining. 2018.
+
+[2] Malkiel, Burton G. "The efficient market hypothesis and its critics." Journal of economic perspectives 17.1 (2003): 59-82.
+
+[3] Batres-Estrada, Bilberto. "Deep learning for multivariate financial time series." (2015).
+
+[4] Roman, Jovina, and Akhtar Jameel. "Backpropagation and recurrent neural networks in financial analysis of multiple stock market returns." Proceedings of HICSS-29: 29th Hawaii International Conference on System Sciences. Vol. 2. IEEE, 1996.
+
+[5] Jia, Hengjian. "Investigation into the effectiveness of long short term memory networks for stock price prediction." arXiv preprint arXiv:1603.07893 (2016).
+
+[6] Ding, Xiao, et al. "Deep learning for event-driven stock prediction." Twenty-fourth international joint conference on artificial intelligence. 2015.
+
+[7] Ronaghi, Farnoush, et al. "ND-SMPF: A Noisy Deep Neural Network Fusion Framework for Stock Price Movement Prediction." 2020 IEEE 23rd International Conference on Information Fusion (FUSION). IEEE, 2020.
+
+[8] Si, Jianfeng, et al. "Exploiting social relations and sentiment for stock prediction." Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP). 2014.
+
+[9] Li, Xiaodong, et al. "News impact on stock price return via sentiment analysis." Knowledge-Based Systems 69 (2014): 14-23.
+
+[10] Ding, Xiao, et al. "Deep learning for event-driven stock prediction." Twenty-fourth international joint conference on artificial intelligence. 2015.
+
+[11] Zhongguo Li, Maosong Sun. Punctuation as Implicit Annotations for Chinese Word Segmentation. Computational Linguistics, vol. 35, no. 4, pp. 505-512, 2009.
+
+[12] Duan, Y., Schulman, J., Chen, X., Bartlett, P. L., Sutskever, I., & Abbeel, P. (2016). Rl $^ 2$: Fast reinforcement learning via slow reinforcement learning. arXiv preprint arXiv:1611.02779.
