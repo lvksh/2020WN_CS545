@@ -1,7 +1,7 @@
 # 2020WN_CS545
 Final project repository for umich EECS 545 Machine Learning. 
 
-**Codes**
+## Codes
 
 data collection (crawling.py)  
     - Collect news for 300 stocks from 5 major finance websites using TUSHARE from 2019-01-01 to 2020-10-12   
@@ -25,7 +25,7 @@ Some baseline model and plotting functions (baseline.py)
 
 
 
-**MATERIALS**
+## MATERIALS
 - [Tushare - Stock data scrawling tool](https://tushare.pro/register?reg=395357)
 - [Listening to Chaotic Whispers: A Deep Learning Framework for News-oriented Stock Trend Prediction
 Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
@@ -47,7 +47,7 @@ Ziniu](https://arxiv.org/pdf/1712.02136v3.pdf)
 - [BERT中文情感分类](https://github.com/Toyhom/Hei_Dong/tree/master/Project/%E4%B8%AD%E6%96%87%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB)
 
 
-**TODOS**
+## TODOS
 - ~~project proposal~~  
 - Things to figure out before everything
   - ~~Common label definitions used in stock prediction~~ 
